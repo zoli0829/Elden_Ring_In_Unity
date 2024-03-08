@@ -13,7 +13,7 @@ namespace ZV
 
         // CHANGE THESE TO TWEAK CAMERA PERFORMANCE
         [Header("Camera Settings")]
-        private float cameraSmoothSpeed = 1.0f; // THE BIGGER THIS NUMBER, THE LONGER FOR THE CAMERA TO REACH ITS POSITION DURING MOVEMENT
+        [SerializeField] private float cameraSmoothSpeed = 1.0f; // THE BIGGER THIS NUMBER, THE LONGER FOR THE CAMERA TO REACH ITS POSITION DURING MOVEMENT
         [SerializeField] float leftAndRightRotationSpeed = 220;
         [SerializeField] float upAndDownRotationSpeed = 220;
         [SerializeField] float minimumPivot = -30; // THE LOWEST POINT YOU ARE ABLE TO LOOK DOWN

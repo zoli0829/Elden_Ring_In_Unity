@@ -38,13 +38,19 @@ namespace ZV
         [SerializeField] bool switch_Right_Weapon_Input = false;
         [SerializeField] bool switch_Left_Weapon_Input = false;
 
-
         [Header("BUMPER INPUTS")]
         [SerializeField] bool RB_Input = false;
 
         [Header("TRIGGER INPUTS")]
         [SerializeField] bool RT_Input = false;
         [SerializeField] bool Hold_RT_Input = false;
+
+        [Header("QUEUED INPUTS")]
+        [SerializeField] private bool input_Queue_Active = false;
+        [SerializeField] float default_Queue_Input_Time = 0.35f;
+        [SerializeField] float queue_Input_Timer = 0;
+        [SerializeField] bool queue_RB_Input = false;
+        [SerializeField] bool queue_RT_Input = false;
 
         private void Awake()
         {
@@ -130,6 +136,10 @@ namespace ZV
                 playerControls.PlayerActions.Sprint.performed += i => sprint_Input = true;
                 // RELEASING THE INPUT, SETS THE BOOL TO FALSE
                 playerControls.PlayerActions.Sprint.canceled += i => sprint_Input = false;
+
+                // QUEUED INPUTS
+                playerControls.PlayerActions.QueueRB.performed += i => QueueInput(ref queue_RB_Input);
+                playerControls.PlayerActions.QueueRT.performed += i => QueueInput(ref queue_RT_Input);
             }
 
             playerControls.Enable();
@@ -176,6 +186,7 @@ namespace ZV
             HandleChargeRTInput();
             HandleSwitchRightWeaponInput();
             HandleSwitchLeftWeaponInput();
+            HandleQueuedInputs();
         }
 
         // LOCK ON
@@ -413,6 +424,65 @@ namespace ZV
             {
                 switch_Left_Weapon_Input = false;
                 player.playerEquipmentManager.SwitchLeftWeapon();
+            }
+        }
+
+        private void QueueInput(ref bool queuedInput) // PASING A REFERENCE MEANS WE PASS A SPECIFIC BOOL, AND NOT THE STATUS OF THAT BOOL (TRUE OR FALSE)
+        {
+            // RESET ALL QUEUED INPUTS SO ONLY ONE CAN QUEUE AT A TIME
+            queue_RB_Input = false;
+            queue_RT_Input = false;
+            //queue_LB_Input = false;
+            //queue_LT_Input = false;
+
+            // CHECK FOR UI WINDOW BEING OPEN, IF ITS OPEN RETURN
+
+            if(player.isPerformingAction || player.playerNetworkManager.isJumping.Value)
+            {
+                queuedInput = true;
+                // ATTEMPT THIS NEW INPUT FOR X AMOUNT OF TIME
+                queue_Input_Timer = default_Queue_Input_Time;
+                input_Queue_Active = true;
+            }
+        }
+
+        private void ProcessQueuedInput()
+        {
+            if (player.isDead.Value)
+                return;
+
+            if(queue_RB_Input)
+            {
+                RB_Input = true;
+            }
+
+            if (queue_RT_Input)
+            {
+                RT_Input = true;
+            }
+        }
+
+        private void HandleQueuedInputs()
+        {
+            // WHILE THE TIMER IS ABOVE 0, KEEP ATTEMPTING TO PRESS THE INPUT
+            if(input_Queue_Active)
+            {
+                if(queue_Input_Timer > 0)
+                {
+                    queue_Input_Timer -= Time.deltaTime;
+                    ProcessQueuedInput();
+                }
+                else
+                {
+                    // RESET ALL QUEUED INPUTS
+                    queue_RB_Input = false;
+                    queue_RT_Input = false;
+                    //queue_LB_Input = false;
+                    //queue_LT_Input = false;
+
+                    input_Queue_Active = false;
+                    queue_Input_Timer = 0;
+                }
             }
         }
     }
