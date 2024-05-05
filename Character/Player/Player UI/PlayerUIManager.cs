@@ -15,6 +15,10 @@ namespace ZV
         [HideInInspector] public PlayerUIHudManager playerUIHudManager;
         [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
 
+        [Header("UI Flags")]
+        public bool menuWindowIsOpen = false; // INVENTORY SCREEN, EQUIPMENT MENU, BLACKSMITH MENU ECT
+        public bool popUpWindowIsOpen = false; // ITEM PICKUPS, DIALOGUE POP UP ECT
+
         private void Awake()
         {
             if (instance == null)
