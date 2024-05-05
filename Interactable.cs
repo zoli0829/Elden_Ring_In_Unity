@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 namespace ZV
 {
-    public class Interactable : MonoBehaviour
+    public class Interactable : NetworkBehaviour
     {
         public string interactibleText; // TEXT PROMPT WHEN ENTERING THE INTERACTION COLLIDER (PICK UP ITEM, PULL LEVER ECT)
         [SerializeField] protected Collider interactibleCollider; // COLLIDER THAT CHECKS FOR PLAYER INTERACTION

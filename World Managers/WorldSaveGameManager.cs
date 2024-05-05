@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 namespace ZV
 {
@@ -250,7 +251,7 @@ namespace ZV
             player.playerNetworkManager.endurance.Value = 10;
 
             SaveGame();
-            StartCoroutine(LoadWorldScene());
+            LoadWorldScene(worldSceneIndex);
         }
 
         public void LoadGame()
@@ -264,7 +265,7 @@ namespace ZV
             saveFileDataWriter.saveFileName = saveFileName;
             currentCharacterData = saveFileDataWriter.LoadSaveFile();
 
-            StartCoroutine(LoadWorldScene());
+            LoadWorldScene(worldSceneIndex);
         }
 
         public void SaveGame()
@@ -331,13 +332,12 @@ namespace ZV
             characterSlot10 = saveFileDataWriter.LoadSaveFile();
         }
 
-        public IEnumerator LoadWorldScene()
+        public void LoadWorldScene(int buildIndex)
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+            string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+            NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
 
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
-
-            yield return null;
         }
 
         public int GetWorldSceneIndex()
