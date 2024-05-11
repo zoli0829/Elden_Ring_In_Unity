@@ -7,7 +7,7 @@ namespace ZV
 {
     public class Interactable : NetworkBehaviour
     {
-        public string interactibleText; // TEXT PROMPT WHEN ENTERING THE INTERACTION COLLIDER (PICK UP ITEM, PULL LEVER ECT)
+        public string interactableText; // TEXT PROMPT WHEN ENTERING THE INTERACTION COLLIDER (PICK UP ITEM, PULL LEVER ECT)
         [SerializeField] protected Collider interactibleCollider; // COLLIDER THAT CHECKS FOR PLAYER INTERACTION
         [SerializeField] protected bool hostOnlyInteractible = true; // WHEN TRUE, OBJECT CANNOT BE INTERACTED WITH BY CO-OP PLAYERS
 
@@ -25,8 +25,6 @@ namespace ZV
 
         public virtual void Interact(PlayerManager player)
         {
-            Debug.Log("YOU HAVE INTERACTED");
-
             if (!player.IsOwner)
                 return;
 

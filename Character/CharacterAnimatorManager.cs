@@ -151,7 +151,6 @@ namespace ZV
             bool canRotate = false, 
             bool canMove = false)
         {
-            Debug.Log("PLAYING ANIMATION: " + targetAnimation);
             this.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(targetAnimation, 0.2f);
             // CAN BE USED TO STOP CHARACTER FROM ATTEMPTING NEW ACTIONS

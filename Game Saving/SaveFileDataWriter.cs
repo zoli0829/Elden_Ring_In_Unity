@@ -41,7 +41,6 @@ namespace ZV
             {
                 // CREATE THE DIRECTORY THE FILE WILL BE WRITTEN TO, IF IT DOES NOT ALREADY EXISTS
                 Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-                Debug.Log("Creating Save File, at Save Path: " + savePath);
 
                 // SERIALIZE C# GAME DATA OBJECT INTO JSON
                 string dataToStore = JsonUtility.ToJson(characterData, true);

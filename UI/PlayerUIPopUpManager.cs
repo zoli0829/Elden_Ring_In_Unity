@@ -11,6 +11,7 @@ namespace ZV
         [SerializeField] TextMeshProUGUI popUpMessageText;
         [SerializeField] GameObject popUpMessageGameObject;
 
+        // TO DO: MAKE ONE POP UP OBJECT AND CHANGE THE TEXT VALUES AS NEEDED INSTEAD OF MAKING SEVERAL DIFFERENT GROUPS FOR POP UP FUNCTIONALITY
         [Header("YOU DIED Pop Up")]
         [SerializeField] GameObject youDiedPopUpGameObject;
         [SerializeField] TextMeshProUGUI youDiedPopUpBackgroundText;
@@ -22,6 +23,12 @@ namespace ZV
         [SerializeField] TextMeshProUGUI bossDefeatedPopUpBackgroundText;
         [SerializeField] TextMeshProUGUI bossDefeatedPopUpText;
         [SerializeField] CanvasGroup bossDefeatedPopUpCanvasGroup; // Allows us to set the alpha fade over time
+
+        [Header("SITE OF GRACE Pop Up")]
+        [SerializeField] GameObject siteOfGracePopUpGameObject;
+        [SerializeField] TextMeshProUGUI siteOfGracePopUpBackgroundText;
+        [SerializeField] TextMeshProUGUI siteOfGracePopUpText;
+        [SerializeField] CanvasGroup siteOfGracePopUpCanvasGroup; // Allows us to set the alpha fade over time
 
         public void CloseAllPopUpWindows()
         {
@@ -58,6 +65,19 @@ namespace ZV
             StartCoroutine(StretchPopUpTextOverTime(bossDefeatedPopUpBackgroundText, 8, 19f));
             StartCoroutine(FadeInPopUpTime(bossDefeatedPopUpCanvasGroup, 5));
             StartCoroutine(WaitThenFadeOutPopUpOverTime(bossDefeatedPopUpCanvasGroup, 2, 5));
+        }
+
+        public void SendGraceRestoredPopUp(string siteOfGraceRestoredMessage)
+        {
+            // ACTIVATE POST PROCESSING EFFECTS
+
+            siteOfGracePopUpText.text = siteOfGraceRestoredMessage;
+            siteOfGracePopUpBackgroundText.text = siteOfGraceRestoredMessage;
+            siteOfGracePopUpGameObject.SetActive(true);
+            siteOfGracePopUpBackgroundText.characterSpacing = 0;
+            StartCoroutine(StretchPopUpTextOverTime(siteOfGracePopUpBackgroundText, 8, 19f));
+            StartCoroutine(FadeInPopUpTime(siteOfGracePopUpCanvasGroup, 5));
+            StartCoroutine(WaitThenFadeOutPopUpOverTime(siteOfGracePopUpCanvasGroup, 2, 5));
         }
 
         private IEnumerator StretchPopUpTextOverTime(TextMeshProUGUI text, float duration, float stretchAmount)
@@ -123,7 +143,7 @@ namespace ZV
                 }
             }
 
-            canvas.alpha = 1;
+            canvas.alpha = 0;
 
             yield return null;
         }

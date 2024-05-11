@@ -29,12 +29,16 @@ namespace ZV
         public int vitality;
         public int endurance;
 
+        [Header("Sites of Grace")]
+        public SerializableDictionary<int, bool> sitesOfGrace; // THE INT IS THE SITE OF GRACE ID, THE BOOL IS THE ACTIVATED STATUS
+
         [Header("Bosses")]
         public SerializableDictionary<int, bool> bossesAwakened; // THE INT IS THE BOSS ID, THE BOOL IS THE AWAKENED STATUS
         public SerializableDictionary<int, bool> bossesDefeated; // THE INT IS THE BOSS ID, THE BOOL IS THE DEFEATED STATUS
 
         public CharacterSaveData() 
         {
+            sitesOfGrace = new SerializableDictionary<int, bool>();
             bossesAwakened = new SerializableDictionary<int, bool>();
             bossesDefeated = new SerializableDictionary<int, bool>();
         }

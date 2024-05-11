@@ -44,7 +44,7 @@ namespace ZV
             // IF WE HAVE AN INTERACTABLE ACTION AND HAVE NOT NOTIFIED OUR PLAYER, WE DO SO HERE
             if (currentInteractibleActions[0] != null)
             {
-                PlayerUIManager.instance.playerUIPopUpManager.SendPlayerMessagePopUp(currentInteractibleActions[0].interactibleText);
+                PlayerUIManager.instance.playerUIPopUpManager.SendPlayerMessagePopUp(currentInteractibleActions[0].interactableText);
             }
         }
 
